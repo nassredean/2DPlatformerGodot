@@ -6,6 +6,7 @@
 
 [sub_resource type="Animation" id=4]
 resource_name = "Death"
+length = 0.6
 tracks/0/type = "value"
 tracks/0/path = NodePath("RunIdleSwipeSprite:visible")
 tracks/0/interp = 1
@@ -143,6 +144,7 @@ region_rect = Rect2( 0, 256, 128, 32 )
 [node name="DeathSprite" type="Sprite" parent="."]
 texture = ExtResource( 3 )
 hframes = 4
+frame = 3
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Death = SubResource( 4 )

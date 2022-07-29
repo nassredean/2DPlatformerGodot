@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+enum Direction {LEFT, RIGHT}
+
 # Movement
 var speed : int = 100
 var jump_speed : int = 220
@@ -22,13 +24,13 @@ func get_input(delta):
 	if !respawning:
 		velocity.x = 0
 		if Input.is_action_pressed("move_right"):
-			$RunIdleSwipeSprite.set_flip_h(false)
+			set_direction(Direction.RIGHT)
 			velocity.x += speed
 			if is_on_floor():
 				$AnimationPlayer.play("Walk_Right")
 			
 		if Input.is_action_pressed("move_left"):
-			$RunIdleSwipeSprite.set_flip_h(true)
+			set_direction(Direction.LEFT)
 			velocity.x -= speed
 			if is_on_floor():
 				$AnimationPlayer.play("Walk_Right")
@@ -53,14 +55,22 @@ func get_input(delta):
 func respawn():
 	position = initial_position
 	respawning = false
+	
+func set_direction(direction):
+	if direction == Direction.LEFT:
+		$RunIdleSwipeSprite.set_flip_h(true)
+		$DeathSprite.set_flip_h(true)
+	elif direction == Direction.RIGHT:
+		$RunIdleSwipeSprite.set_flip_h(false)
+		$DeathSprite.set_flip_h(false)
 
 func process_collisions():
 	# get collisioins
 	for i in get_slide_count():
 		var col = get_slide_collision(i)
-		if col.collider.is_in_group("spike"):
-			get_node("/root/Main/HealthBar").do_damage(1)
+		if col.collider.is_in_group("spike") && !respawning:
 			respawning = true
+			get_node("/root/Main/HealthBar").do_damage(1)
 			$AnimationPlayer.play("Death")
 			break
 
