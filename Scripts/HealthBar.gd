@@ -21,7 +21,6 @@ func _ready():
 		pip_container.add_child(pi)
 
 func do_damage(damage):
-	print("doing damage")
 	for i in range(max(current_health - damage, 0), current_health):
 		pip_container.get_node("pip%s" % i).queue_free()
 		var damage_pip = load("res://Scenes/DamagePip.tscn")
