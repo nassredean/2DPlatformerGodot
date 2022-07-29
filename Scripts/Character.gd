@@ -4,13 +4,15 @@ var speed : int = 100
 var jump_speed : int = 220
 var gravity : int = 660
 var velocity = Vector2.ZERO
+var initial_position = Vector2.ZERO
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
+	initial_position = position
 
 func _physics_process(delta):
 	get_input(delta)
+	process_collisions()
 
 func get_input(delta):
 	velocity.x = 0
@@ -29,25 +31,29 @@ func get_input(delta):
 	if Input.is_action_pressed("jump"):
 		if (is_on_floor()):
 			velocity.y -= jump_speed
+			# Stop the running/idle animations when jumping
+			$AnimationPlayer.stop()
+			$AnimationPlayer.seek(2, true)
 			
 	# Play idle animation when not moving		
 	if velocity.x == 0 and velocity.y == 0:
 		$AnimationPlayer.play("Idle")
-	
-	# Stop animation when in the air
-	if !is_on_floor():
-		$AnimationPlayer.stop()
-		$AnimationPlayer.seek(2, true)
 		
 	#gravity
 	velocity.y += gravity * delta
 	
 	# apply movement
 	velocity = move_and_slide(velocity, Vector2.UP)
-	
+
+func respawn():
+	position = initial_position
+	pass
+
+func process_collisions():
 	# get collisioins
 	for i in get_slide_count():
 		var col = get_slide_collision(i)
 		if col.collider.is_in_group("spike"):
-			# do damage to player
-			pass
+			get_node("/root/Main/HealthBar").do_damage(1)
+			respawn()
+			break
