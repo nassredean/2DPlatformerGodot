@@ -11,6 +11,7 @@ var initial_position = Vector2.ZERO
 
 # Character state
 var respawning = false
+var slashing = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -36,14 +37,19 @@ func get_input(delta):
 				$AnimationPlayer.play("Walk_Right")
 
 		if Input.is_action_just_pressed("jump"):
-			if (is_on_floor()):
+			if is_on_floor():
 				velocity.y -= jump_speed
 				# Stop the running/idle animations when jumping
 				$AnimationPlayer.stop()
 				$AnimationPlayer.seek(2, true)
+		
+		if Input.is_action_just_pressed("interact"):
+			if is_on_floor():
+				slashing = true
+				$AnimationPlayer.play("Slash")
 				
 		# Play idle animation when not moving		
-		if velocity.x == 0 and velocity.y == 0:
+		if velocity.x == 0 and velocity.y == 0 && !slashing:
 			$AnimationPlayer.play("Idle")
 			
 		#gravity
@@ -58,11 +64,9 @@ func respawn():
 	
 func set_direction(direction):
 	if direction == Direction.LEFT:
-		$RunIdleSwipeSprite.set_flip_h(true)
-		$DeathSprite.set_flip_h(true)
+		$CharacterSprite.set_flip_h(true)
 	elif direction == Direction.RIGHT:
-		$RunIdleSwipeSprite.set_flip_h(false)
-		$DeathSprite.set_flip_h(false)
+		$CharacterSprite.set_flip_h(false)
 
 func process_collisions():
 	# get collisioins
@@ -77,3 +81,5 @@ func process_collisions():
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Death":
 		respawn()
+	if anim_name == "Slash":
+		slashing = false

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/deathanim.png-6845ca8070349fad81b4f5af09312f56.stex"
+path="res://.import/CharacterSpriteSheet.png-499c845514e2426cd0ea2e70f125fa14.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/deathanim.png"
-dest_files=[ "res://.import/deathanim.png-6845ca8070349fad81b4f5af09312f56.stex" ]
+source_file="res://Assets/CharacterSpriteSheet.png"
+dest_files=[ "res://.import/CharacterSpriteSheet.png-499c845514e2426cd0ea2e70f125fa14.stex" ]
 
 [params]
 
