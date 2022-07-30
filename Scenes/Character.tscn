@@ -51,6 +51,30 @@ tracks/0/keys = {
 "update": 1,
 "values": [ 24, 25, 26, 27 ]
 }
+tracks/1/type = "value"
+tracks/1/path = NodePath("EffectSprite:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("EffectSprite:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 20, 21, 22, 23 ]
+}
 
 [sub_resource type="Animation" id=5]
 resource_name = "Slash"
@@ -106,6 +130,14 @@ shape = SubResource( 3 )
 texture = ExtResource( 4 )
 hframes = 8
 vframes = 6
-frame = 19
+frame = 27
+
+[node name="EffectSprite" type="Sprite" parent="."]
+visible = false
+position = Vector2( 24, 0 )
+texture = ExtResource( 4 )
+hframes = 4
+vframes = 6
+frame = 23
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
