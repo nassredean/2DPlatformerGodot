@@ -11,7 +11,8 @@ var initial_position = Vector2.ZERO
 
 # Character state
 var respawning = false
-var slashing = false
+var interacting = false
+var in_switch_one_range = false;
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -25,12 +26,14 @@ func get_input(delta):
 	if !respawning:
 		velocity.x = 0
 		if Input.is_action_pressed("move_right"):
+			interacting = false;
 			set_direction(Direction.RIGHT)
 			velocity.x += speed
 			if is_on_floor():
 				$AnimationPlayer.play("Walk_Right")
 			
 		if Input.is_action_pressed("move_left"):
+			interacting = false;
 			set_direction(Direction.LEFT)
 			velocity.x -= speed
 			if is_on_floor():
@@ -38,6 +41,7 @@ func get_input(delta):
 
 		if Input.is_action_just_pressed("jump"):
 			if is_on_floor():
+				interacting = false;
 				velocity.y -= jump_speed
 				# Stop the running/idle animations when jumping
 				$AnimationPlayer.stop()
@@ -45,11 +49,13 @@ func get_input(delta):
 		
 		if Input.is_action_just_pressed("interact"):
 			if is_on_floor():
-				slashing = true
+				interacting = true
 				$AnimationPlayer.play("Slash")
+				if in_switch_one_range:
+					get_node("/root/Main/SwitchOne").switch()
 				
 		# Play idle animation when not moving		
-		if velocity.x == 0 and velocity.y == 0 && !slashing:
+		if velocity.x == 0 and velocity.y == 0 && !interacting:
 			$AnimationPlayer.play("Idle")
 			
 		#gravity
@@ -82,4 +88,10 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Death":
 		respawn()
 	if anim_name == "Slash":
-		slashing = false
+		interacting = false
+
+func _on_SwitchOne_area_entered(area):
+	in_switch_one_range = true
+
+func _on_SwitchOne_area_exited(area):
+	in_switch_one_range = false
