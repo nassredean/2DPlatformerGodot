@@ -1,7 +1,6 @@
 [gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Scripts/Character.gd" type="Script" id=2]
-[ext_resource path="res://Assets/CharacterSpriteSheet.png" type="Texture" id=4]
 
 [sub_resource type="Animation" id=4]
 resource_name = "Death"
@@ -112,7 +111,11 @@ tracks/0/keys = {
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 6.5, 7 )
 
+[sub_resource type="StreamTexture" id=7]
+load_path = "res://.import/CharacterSpriteSheet.png-499c845514e2426cd0ea2e70f125fa14.stex"
+
 [node name="Character" type="KinematicBody2D"]
+position = Vector2( 8, 8 )
 collision_mask = 7
 script = ExtResource( 2 )
 
@@ -128,7 +131,7 @@ position = Vector2( -0.5, 1 )
 shape = SubResource( 3 )
 
 [node name="CharacterSprite" type="Sprite" parent="."]
-texture = ExtResource( 4 )
+texture = SubResource( 7 )
 hframes = 8
 vframes = 6
 frame = 24
@@ -136,14 +139,14 @@ frame = 24
 [node name="EffectSprite" type="Sprite" parent="."]
 visible = false
 position = Vector2( 24, 0 )
-texture = ExtResource( 4 )
+texture = SubResource( 7 )
 hframes = 4
 vframes = 6
 frame = 20
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="WorldInteract" type="Area2D" parent="."]
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="WorldInteract"]
 position = Vector2( -0.5, 1 )
 shape = SubResource( 3 )
 
