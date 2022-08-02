@@ -866,7 +866,7 @@ tile_set = SubResource( 80 )
 cell_size = Vector2( 16, 16 )
 collision_layer = 2
 format = 1
-tile_data = PoolIntArray( 720903, 0, 0, 720904, 0, 0, 720905, 0, 0, 720906, 0, 0, 720907, 0, 0, 720908, 0, 0, 720909, 0, 0, 851972, 0, 0, 851973, 0, 0, 1048576, 0, 0, 1048577, 0, 0 )
+tile_data = PoolIntArray( 720903, 0, 0, 720904, 0, 0, 720905, 0, 0, 720906, 0, 0, 720907, 0, 0, 720908, 0, 0, 720909, 0, 0, 851972, 0, 0, 851973, 0, 0, 1048576, 0, 0, 1048577, 0, 0, 1507342, 0, 0, 1507343, 0, 0 )
 
 [node name="Character" parent="." instance=ExtResource( 3 )]
 position = Vector2( 20, 24 )

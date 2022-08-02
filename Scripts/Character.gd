@@ -1,11 +1,13 @@
 extends KinematicBody2D
 
+class_name Character
+
 enum Direction {LEFT, RIGHT}
 
 # Movement
 var horizontal_speed : int = 100
 var jump_speed : int = 220
-var max_vertical_acceleration_abs : int = 350
+var terminal_velocity : int = 350
 
 var gravity : int = 660
 var velocity = Vector2.ZERO
@@ -15,11 +17,13 @@ var initial_position = Vector2.ZERO
 var dieing = false
 var interacting = false
 var current_interactable = null;
+var external_forces = {}
 
 func respawn():
 	interacting = false
 	dieing = false
 	unregister_interactable()
+	external_forces = {}
 	position = initial_position
 	
 func register_interactable(interactable):
@@ -27,6 +31,21 @@ func register_interactable(interactable):
 	
 func unregister_interactable():
 	current_interactable = null;
+	
+func register_external_force(force_name, force, active = false):
+	external_forces[force_name] = {
+		"force": force,
+		"active": active
+	}
+
+func unregister_external_force(force_name):
+	external_forces.erase(force_name)
+
+func activate_external_force(force_name):
+	external_forces[force_name]["active"] = true
+
+func deactivate_external_force(force_name):
+	external_forces[force_name]["active"] = false
 
 func _ready():
 	get_tree().get_current_scene().register_respawnable(self)
@@ -71,13 +90,19 @@ func _get_input(delta):
 		# Play idle animation when not moving		
 		if velocity.x == 0 and velocity.y == 0 && !interacting:
 			$AnimationPlayer.play("Idle")
-			
-		#gravity
+		
+		# apply external forces
+		for external_force_name in external_forces:
+			var external_force = external_forces[external_force_name]
+			if external_force["active"]:
+				velocity = external_force["force"].apply_force(velocity)
+		
+		# apply gravity
 		velocity.y += gravity * delta
-		#terminal velocity
-		var vysign = velocity.y / abs(velocity.y)
-		velocity.y = min(abs(velocity.y), max_vertical_acceleration_abs)
-		velocity.y *= vysign
+		
+		# apply terminal velocity
+		if velocity.y > 0:
+			velocity.y = min(velocity.y, terminal_velocity)
 
 		# apply movement
 		velocity = move_and_slide(velocity, Vector2.UP)
