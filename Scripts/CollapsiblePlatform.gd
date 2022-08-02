@@ -25,4 +25,5 @@ func activate():
 
 func respawn():
 	status = Status.DOWN
+	$CollisionShape2D.disabled = true
 	$Sprite.frame = 355
