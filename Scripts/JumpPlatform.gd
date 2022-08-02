@@ -14,11 +14,14 @@ func respawn():
 	$PlatformSprite.frame = EMPTY_FRAME
 
 func activate():
-	$AnimationPlayer.play("DownToUp")
-	status = Status.UP
+	$Timer.start()
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "DownToUp":
 		$AnimationPlayer.play("UpToDown")
 	if anim_name == "UpToDown":
 		status = Status.DOWN
+
+func timer_finished():
+	$AnimationPlayer.play("DownToUp")
+	status = Status.UP

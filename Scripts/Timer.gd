@@ -1,16 +1,21 @@
 extends Sprite
 
+enum Status {EMPTY, CHARGING}
+var status = Status.EMPTY
+var timeable = null;
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
-
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	get_tree().get_current_scene().register_respawnable(self)
+	timeable = get_parent()
+	
+func start():
+	$AnimationPlayer.play("Charge")
+	
+func respawn():
+	status = Status.EMPTY
+	frame = 324
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func _on_AnimationPlayer_animation_finished(anim_name):
+	if anim_name == "Charge":
+		timeable.timer_finished()
+		frame = 324

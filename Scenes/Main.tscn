@@ -905,4 +905,4 @@ position = Vector2( 144, 368 )
 activateable_paths = [ NodePath("../JumpPlatform1") ]
 
 [node name="JumpPlatform1" parent="." instance=ExtResource( 9 )]
-position = Vector2( 192, 384 )
+position = Vector2( 192, 400 )
