@@ -15,7 +15,7 @@ func _ready():
 		activateables.append(get_node(activateable_path))
 
 func respawn():
-	status = Status.Off
+	status = Status.OFF
 	frame = 356
 
 func _on_Area2D_area_entered(area):

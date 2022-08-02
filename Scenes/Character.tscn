@@ -116,7 +116,7 @@ load_path = "res://.import/CharacterSpriteSheet.png-499c845514e2426cd0ea2e70f125
 
 [node name="Character" type="KinematicBody2D"]
 position = Vector2( 8, 8 )
-collision_mask = 7
+collision_mask = 2
 script = ExtResource( 2 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -145,6 +145,7 @@ vframes = 6
 frame = 20
 
 [node name="WorldInteract" type="Area2D" parent="."]
+collision_mask = 4
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="WorldInteract"]
 position = Vector2( -0.5, 1 )
