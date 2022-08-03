@@ -88,7 +88,7 @@ func _get_input(delta):
 					current_interactable.interact()
 				
 		# Play idle animation when not moving		
-		if velocity.x == 0 and velocity.y == 0 && !interacting:
+		if is_on_floor() && velocity.x == 0 && velocity.y == 0 && !interacting:
 			$AnimationPlayer.play("Idle")
 		
 		# apply external forces
@@ -104,6 +104,7 @@ func _get_input(delta):
 		if velocity.y > 0:
 			velocity.y = min(velocity.y, terminal_velocity)
 
+		print(velocity.y)
 		# apply movement
 		velocity = move_and_slide(velocity, Vector2.UP)
 

@@ -33,6 +33,8 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "DownToUp":
 		if active_player:
 			active_player.activate_external_force("jump_platform")
+			active_player.get_node("AnimationPlayer").stop()
+			active_player.get_node("AnimationPlayer").seek(2, true)
 		$AnimationPlayer.play("UpToDown")
 	if anim_name == "UpToDown":
 		status = Status.DOWN
